@@ -6,6 +6,7 @@ import { Button } from '../components/UI/Button';
 import { Card } from '../components/UI/Card';
 import { Issue } from '../types';
 import { mockApi } from '../services/mockApi';
+import { useAuth } from '../contexts/AuthContext';
 
 export const MyReports: React.FC = () => {
   const [issues, setIssues] = useState<Issue[]>([]);
@@ -13,11 +14,14 @@ export const MyReports: React.FC = () => {
   const [loading, setLoading] = useState(true);
   const [statusFilter, setStatusFilter] = useState<string>('all');
   const [searchQuery, setSearchQuery] = useState('');
+  const { user } = useAuth();
 
   useEffect(() => {
     const loadUserIssues = async () => {
+      if (!user) return;
+      
       try {
-        const userIssues = await mockApi.getIssuesByUser('citizen1');
+        const userIssues = await mockApi.getIssuesByUser(user.id);
         setIssues(userIssues);
         setFilteredIssues(userIssues);
       } catch (error) {
@@ -28,7 +32,7 @@ export const MyReports: React.FC = () => {
     };
 
     loadUserIssues();
-  }, []);
+  }, [user]);
 
   useEffect(() => {
     let filtered = issues;
@@ -167,7 +171,7 @@ export const MyReports: React.FC = () => {
                       issue={issue}
                       onUpvote={handleIssueUpvote}
                       showDetails={true}
-                      currentUserId="citizen1"
+                      currentUserId={user?.id}
                     />
                     
                     {/* Progress Timeline */}
