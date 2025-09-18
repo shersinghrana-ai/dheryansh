@@ -8,6 +8,7 @@ import { Card } from '../components/UI/Card';
 import { Issue } from '../types';
 import { useGeolocation } from '../hooks/useGeolocation';
 import { mockApi } from '../services/mockApi';
+import { useAuth } from '../contexts/AuthContext';
 
 export const Home: React.FC = () => {
   const [nearbyIssues, setNearbyIssues] = useState<Issue[]>([]);
@@ -16,6 +17,7 @@ export const Home: React.FC = () => {
   const [showReportForm, setShowReportForm] = useState(false);
   
   const { location } = useGeolocation();
+  const { user } = useAuth();
 
   useEffect(() => {
     const loadIssues = async () => {
@@ -151,7 +153,7 @@ export const Home: React.FC = () => {
                         key={issue.id}
                         issue={issue}
                         onUpvote={handleIssueUpvote}
-                        currentUserId="citizen1"
+                        currentUserId={user?.id}
                       />
                     ))}
                   </div>
