@@ -52,6 +52,13 @@ let mockUsers: User[] = [
     email: 'admin@municipal.gov.in',
     phone: '+91-9876543211',
     isAdmin: true
+  },
+  {
+    id: 'citizen2',
+    name: 'Priya Sharma',
+    email: 'citizen@example.com',
+    phone: '+91-9876543212',
+    isAdmin: false
   }
 ];
 
@@ -182,5 +189,31 @@ export const mockApi = {
   loginAsAdmin: async (): Promise<User> => {
     await new Promise(resolve => setTimeout(resolve, 300));
     return mockUsers.find(u => u.isAdmin) || mockUsers[0];
+  },
+
+  login: async (email: string, password: string): Promise<User> => {
+    await new Promise(resolve => setTimeout(resolve, 500));
+    
+    // Mock authentication - in real app, this would validate against a backend
+    const validCredentials = [
+      { email: 'admin@municipal.gov.in', password: 'admin123', userId: 'admin1' },
+      { email: 'citizen@example.com', password: 'citizen123', userId: 'citizen2' },
+      { email: 'rajesh@example.com', password: 'rajesh123', userId: 'citizen1' }
+    ];
+
+    const credential = validCredentials.find(
+      cred => cred.email === email && cred.password === password
+    );
+
+    if (!credential) {
+      throw new Error('Invalid email or password');
+    }
+
+    const user = mockUsers.find(u => u.id === credential.userId);
+    if (!user) {
+      throw new Error('User not found');
+    }
+
+    return user;
   }
 };
