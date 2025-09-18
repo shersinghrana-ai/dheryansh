@@ -6,7 +6,6 @@ import { ISSUE_CATEGORIES, Issue } from '../../types';
 import { useGeolocation } from '../../hooks/useGeolocation';
 import { useSpeechToText } from '../../hooks/useSpeechToText';
 import { mockApi } from '../../services/mockApi';
-import { useAuth } from '../../contexts/AuthContext';
 
 interface ReportIssueFormProps {
   onSuccess?: (issue: Issue) => void;
@@ -27,7 +26,6 @@ export const ReportIssueForm: React.FC<ReportIssueFormProps> = ({ onSuccess, onC
   
   const fileInputRef = useRef<HTMLInputElement>(null);
   const { location, error: locationError, loading: locationLoading } = useGeolocation();
-  const { user } = useAuth();
   const { 
     text: speechText, 
     isListening, 
@@ -86,7 +84,7 @@ export const ReportIssueForm: React.FC<ReportIssueFormProps> = ({ onSuccess, onC
           address: `${location.lat.toFixed(4)}, ${location.lng.toFixed(4)}`
         },
         photo: formData.photo || undefined,
-        submittedBy: user?.id || 'anonymous'
+        submittedBy: 'citizen1' // Mock user ID
       });
 
       onSuccess?.(issue);

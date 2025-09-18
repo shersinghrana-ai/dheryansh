@@ -1,8 +1,6 @@
 import React, { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Home, MapPin, User, Shield, Menu, X, LogOut } from 'lucide-react';
-import { useAuth } from '../../contexts/AuthContext';
-import { Button } from '../UI/Button';
+import { Home, MapPin, User, Shield, Menu, X } from 'lucide-react';
 
 interface NavigationProps {
   isAdmin?: boolean;
@@ -11,21 +9,16 @@ interface NavigationProps {
 export const Navigation: React.FC<NavigationProps> = ({ isAdmin = false }) => {
   const location = useLocation();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const { user, logout, isAdmin: userIsAdmin } = useAuth();
 
-  const navLinks = (isAdmin || userIsAdmin) ? [
+  const navLinks = isAdmin ? [
     { path: '/admin', label: 'Dashboard', icon: Home },
     { path: '/admin/map', label: 'Live Map', icon: MapPin },
   ] : [
     { path: '/', label: 'Home', icon: Home },
-    ...(user ? [{ path: '/my-reports', label: 'My Reports', icon: User }] : []),
-    ...(!user ? [{ path: '/login', label: 'Login', icon: Shield }] : []),
+    { path: '/my-reports', label: 'My Reports', icon: User },
+    { path: '/admin', label: 'Admin', icon: Shield },
   ];
 
-  const handleLogout = () => {
-    logout();
-    setIsMobileMenuOpen(false);
-  };
   return (
     <nav className="bg-gradient-to-r from-slate-900 via-slate-800 to-slate-900 border-b border-slate-700 sticky top-0 z-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -41,7 +34,6 @@ export const Navigation: React.FC<NavigationProps> = ({ isAdmin = false }) => {
 
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center space-x-8">
-            {/* Navigation Links */}
             {navLinks.map(({ path, label, icon: Icon }) => (
               <Link
                 key={path}
@@ -56,26 +48,6 @@ export const Navigation: React.FC<NavigationProps> = ({ isAdmin = false }) => {
                 <span>{label}</span>
               </Link>
             ))}
-            
-            {/* User Info & Logout */}
-            {user && (
-              <div className="flex items-center space-x-4 pl-4 border-l border-slate-700">
-                <div className="text-sm">
-                  <div className="text-white font-medium">{user.name}</div>
-                  <div className="text-slate-400 text-xs">
-                    {user.isAdmin ? 'Administrator' : 'Citizen'}
-                  </div>
-                </div>
-                <Button
-                  variant="ghost"
-                  size="sm"
-                  onClick={handleLogout}
-                  className="text-slate-300 hover:text-white"
-                >
-                  <LogOut size={16} />
-                </Button>
-              </div>
-            )}
           </div>
 
           {/* Mobile Menu Button */}
@@ -106,25 +78,6 @@ export const Navigation: React.FC<NavigationProps> = ({ isAdmin = false }) => {
                   <span>{label}</span>
                 </Link>
               ))}
-              
-              {/* Mobile User Info & Logout */}
-              {user && (
-                <div className="pt-3 mt-3 border-t border-slate-700">
-                  <div className="px-3 py-2 text-sm">
-                    <div className="text-white font-medium">{user.name}</div>
-                    <div className="text-slate-400 text-xs">
-                      {user.isAdmin ? 'Administrator' : 'Citizen'}
-                    </div>
-                  </div>
-                  <button
-                    onClick={handleLogout}
-                    className="flex items-center space-x-2 px-3 py-2 rounded-md text-base font-medium text-slate-300 hover:text-white hover:bg-slate-700 w-full"
-                  >
-                    <LogOut size={20} />
-                    <span>Logout</span>
-                  </button>
-                </div>
-              )}
             </div>
           </div>
         )}
