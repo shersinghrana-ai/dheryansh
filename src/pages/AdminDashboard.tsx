@@ -227,6 +227,7 @@ export const AdminDashboard: React.FC = () => {
                   </select>
                 </div>
 
+               <div>
                   <label className="block text-sm font-medium text-slate-300 mb-2">
                     Category
                   </label>
@@ -239,18 +240,8 @@ export const AdminDashboard: React.FC = () => {
                     {categories.map(category => (
                       <option key={category} value={category}>{category}</option>
                     ))}
-                    
-                    {/* Special handling for marking as resolved */}
-                    <Button
-                      variant="primary"
-                      size="sm"
-                      onClick={() => updateIssueStatus(selectedIssue.id, 'pending-confirmation')}
-                      disabled={selectedIssue.status === 'pending-confirmation' || selectedIssue.status === 'resolved'}
-                      className="w-full bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-600 hover:to-blue-700"
-                    >
-                      Mark as Resolved (Pending Citizen Confirmation)
-                    </Button>
                   </select>
+               </div>
                 </div>
               </div>
             </Card>
