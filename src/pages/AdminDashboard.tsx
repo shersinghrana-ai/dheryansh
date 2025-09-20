@@ -227,7 +227,6 @@ export const AdminDashboard: React.FC = () => {
                   </select>
                 </div>
 
-                      { status: 'in-progress' as const, label: 'Mark In Progress', variant: 'primary' as const }
                   <label className="block text-sm font-medium text-slate-300 mb-2">
                     Category
                   </label>
