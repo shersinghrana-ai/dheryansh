@@ -75,6 +75,7 @@ export const AdminDashboard: React.FC = () => {
       total: issues.length,
       pending: issues.filter(i => i.status === 'submitted' || i.status === 'verified').length,
       inProgress: issues.filter(i => i.status === 'in-progress').length,
+      pendingConfirmation: issues.filter(i => i.status === 'pending-confirmation').length,
       resolved: issues.filter(i => i.status === 'resolved').length,
       highPriority: issues.filter(i => i.communityUpvotes >= 10).length
     };
@@ -141,6 +142,18 @@ export const AdminDashboard: React.FC = () => {
 
           <Card className="p-6">
             <div className="flex items-center">
+              <div className="p-3 bg-cyan-500/20 rounded-lg">
+                <Clock className="h-6 w-6 text-cyan-400" />
+              </div>
+              <div className="ml-4">
+                <p className="text-sm font-medium text-slate-400">Pending Confirmation</p>
+                <p className="text-2xl font-bold text-white">{stats.pendingConfirmation}</p>
+              </div>
+            </div>
+          </Card>
+
+          <Card className="p-6">
+            <div className="flex items-center">
               <div className="p-3 bg-green-500/20 rounded-lg">
                 <CheckCircle className="h-6 w-6 text-green-400" />
               </div>
@@ -151,17 +164,6 @@ export const AdminDashboard: React.FC = () => {
             </div>
           </Card>
 
-          <Card className="p-6">
-            <div className="flex items-center">
-              <div className="p-3 bg-red-500/20 rounded-lg">
-                <AlertTriangle className="h-6 w-6 text-red-400" />
-              </div>
-              <div className="ml-4">
-                <p className="text-sm font-medium text-slate-400">High Priority</p>
-                <p className="text-2xl font-bold text-white">{stats.highPriority}</p>
-              </div>
-            </div>
-          </Card>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
@@ -220,12 +222,12 @@ export const AdminDashboard: React.FC = () => {
                     <option value="verified">Verified</option>
                     <option value="acknowledged">Acknowledged</option>
                     <option value="in-progress">In Progress</option>
+                    <option value="pending-confirmation">Pending Confirmation</option>
                     <option value="resolved">Resolved</option>
                   </select>
                 </div>
 
-                {/* Category Filter */}
-                <div>
+                      { status: 'in-progress' as const, label: 'Mark In Progress', variant: 'primary' as const }
                   <label className="block text-sm font-medium text-slate-300 mb-2">
                     Category
                   </label>
@@ -238,6 +240,17 @@ export const AdminDashboard: React.FC = () => {
                     {categories.map(category => (
                       <option key={category} value={category}>{category}</option>
                     ))}
+                    
+                    {/* Special handling for marking as resolved */}
+                    <Button
+                      variant="primary"
+                      size="sm"
+                      onClick={() => updateIssueStatus(selectedIssue.id, 'pending-confirmation')}
+                      disabled={selectedIssue.status === 'pending-confirmation' || selectedIssue.status === 'resolved'}
+                      className="w-full bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-600 hover:to-blue-700"
+                    >
+                      Mark as Resolved (Pending Citizen Confirmation)
+                    </Button>
                   </select>
                 </div>
               </div>

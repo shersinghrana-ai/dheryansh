@@ -9,12 +9,16 @@ export interface Issue {
     address: string;
   };
   photo?: string;
-  status: 'submitted' | 'verified' | 'acknowledged' | 'in-progress' | 'resolved';
+  status: 'submitted' | 'verified' | 'acknowledged' | 'in-progress' | 'pending-confirmation' | 'resolved' | 'rejected';
   communityUpvotes: number;
   submittedBy: string;
   submittedAt: Date;
   assignedTo?: string;
   department?: string;
+  resolutionRating?: number;
+  isTrulyResolved: boolean;
+  feedbackComment?: string;
+  resolvedAt?: Date;
 }
 
 export interface User {

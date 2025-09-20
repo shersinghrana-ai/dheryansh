@@ -17,7 +17,8 @@ let mockIssues: Issue[] = [
     submittedBy: 'citizen1',
     submittedAt: new Date('2024-01-15'),
     assignedTo: 'admin1',
-    department: 'Public Works Department'
+    department: 'Public Works Department',
+    isTrulyResolved: false
   },
   {
     id: '2',
@@ -34,7 +35,8 @@ let mockIssues: Issue[] = [
     submittedBy: 'citizen2',
     submittedAt: new Date('2024-01-16'),
     assignedTo: 'admin2',
-    department: 'Sanitation Department'
+    department: 'Sanitation Department',
+    isTrulyResolved: false
   }
 ];
 
