@@ -242,6 +242,7 @@ export const AdminDashboard: React.FC = () => {
                     ))}
                   </select>
                 </div>
+              </div>
             </Card>
 
             {/* Issues Table */}
