@@ -241,9 +241,9 @@ export const AdminDashboard: React.FC = () => {
                       <option key={category} value={category}>{category}</option>
                     ))}
                   </select>
+                </div>
                </div>
                 </div>
-              </div>
             </Card>
 
             {/* Issues Table */}
