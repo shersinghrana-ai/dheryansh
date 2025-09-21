@@ -32,11 +32,21 @@ export const Navigation: React.FC<NavigationProps> = ({ isAdmin = false }) => {
         <div className="flex justify-between items-center h-16">
           {/* Logo */}
           <Link to="/" className="flex items-center space-x-2">
-            <div className="w-8 h-8 bg-gradient-to-br from-orange-500 to-pink-600 rounded-lg flex items-center justify-center">
-              <span className="text-white font-bold text-sm">जा</span>
+            <div className="w-10 h-10 bg-gradient-to-br from-orange-500 via-white to-green-600 rounded-lg flex items-center justify-center border-2 border-orange-400 shadow-lg">
+              <div className="relative">
+                <span className="text-orange-800 font-bold text-lg">🏛️</span>
+                <div className="absolute -top-1 -right-1 w-3 h-3 bg-blue-600 rounded-full flex items-center justify-center">
+                  <span className="text-white text-xs font-bold">✓</span>
+                </div>
+              </div>
             </div>
-            <span className="text-white text-xl font-bold">Jan Awaaz</span>
-            <span className="text-slate-400 text-sm hidden sm:inline">Voice of People</span>
+            <div className="flex flex-col">
+              <span className="text-white text-xl font-bold flex items-center">
+                Jan Awaaz
+                <span className="ml-2 text-orange-400 text-lg">🇮🇳</span>
+              </span>
+              <span className="text-slate-400 text-xs hidden sm:inline -mt-1">जन आवाज़ • Voice of People</span>
+            </div>
           </Link>
 
           {/* Desktop Navigation */}
