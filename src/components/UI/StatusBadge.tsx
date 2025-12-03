@@ -23,17 +23,9 @@ export const StatusBadge: React.FC<StatusBadgeProps> = ({ status }) => {
       color: 'bg-orange-500/20 text-orange-300 border-orange-500/30',
       text: 'In Progress'
     },
-    'pending-confirmation': {
-      color: 'bg-cyan-500/20 text-cyan-300 border-cyan-500/30',
-      text: 'Pending Confirmation'
-    },
     resolved: {
       color: 'bg-green-500/20 text-green-300 border-green-500/30',
       text: 'Resolved'
-    },
-    rejected: {
-      color: 'bg-red-500/20 text-red-300 border-red-500/30',
-      text: 'Rejected'
     }
   };
 
