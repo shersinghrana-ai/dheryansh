@@ -1,7 +1,8 @@
 import React, { useState, useRef } from 'react';
-import { Camera, MapPin, Mic, MicOff, Upload, AlertCircle, CheckCircle, Globe } from 'lucide-react';
+import { Camera, MapPin, Mic, MicOff, Upload, AlertCircle, CheckCircle, Globe, Image } from 'lucide-react';
 import { Button } from '../UI/Button';
 import { Card } from '../UI/Card';
+import { CameraCapture } from '../UI/CameraCapture';
 import { ISSUE_CATEGORIES, Issue } from '../../types';
 import { useGeolocation } from '../../hooks/useGeolocation';
 import { useSpeechToText } from '../../hooks/useSpeechToText';
@@ -23,6 +24,7 @@ export const ReportIssueForm: React.FC<ReportIssueFormProps> = ({ onSuccess, onC
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [showDuplicateWarning, setShowDuplicateWarning] = useState(false);
+  const [showCamera, setShowCamera] = useState(false);
   const [speechLanguage, setSpeechLanguage] = useState('en-US');
   
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -64,6 +66,11 @@ export const ReportIssueForm: React.FC<ReportIssueFormProps> = ({ onSuccess, onC
     }
   };
 
+  const handleCameraCapture = (imageDataUrl: string) => {
+    setFormData(prev => ({ ...prev, photo: imageDataUrl }));
+    setShowCamera(false);
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!location) {
@@ -100,6 +107,21 @@ export const ReportIssueForm: React.FC<ReportIssueFormProps> = ({ onSuccess, onC
       setIsSubmitting(false);
     }
   };
+
+  // Show camera capture interface
+  if (showCamera) {
+    return (
+      <div className="max-w-2xl mx-auto p-4">
+        <CameraCapture
+          onCapture={handleCameraCapture}
+          onCancel={() => setShowCamera(false)}
+          maxWidth={1920}
+          maxHeight={1080}
+          quality={0.8}
+        />
+      </div>
+    );
+  }
 
   return (
     <div className="max-w-2xl mx-auto p-4">
@@ -182,11 +204,20 @@ export const ReportIssueForm: React.FC<ReportIssueFormProps> = ({ onSuccess, onC
                 <Button
                   type="button"
                   variant="secondary"
+                  onClick={() => setShowCamera(true)}
+                  className="flex-1"
+                >
+                  <Camera size={18} className="mr-2" />
+                  Take Photo
+                </Button>
+                <Button
+                  type="button"
+                  variant="secondary"
                   onClick={() => fileInputRef.current?.click()}
                   className="flex-1"
                 >
-                  <Upload size={18} className="mr-2" />
-                  Upload Photo
+                  <Image size={18} className="mr-2" />
+                  Upload
                 </Button>
               </div>
               
