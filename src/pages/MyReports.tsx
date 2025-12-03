@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { FileText, Filter, Search } from 'lucide-react';
 import { Navigation } from '../components/Layout/Navigation';
 import { IssueCard } from '../components/Issues/IssueCard';
+import { CitizenFeedbackForm } from '../components/Issues/CitizenFeedbackForm';
+import { ResolutionSummary } from '../components/Issues/ResolutionSummary';
 import { Button } from '../components/UI/Button';
 import { Card } from '../components/UI/Card';
 import { Issue } from '../types';
@@ -60,6 +62,12 @@ export const MyReports: React.FC = () => {
     );
   };
 
+  const handleFeedbackSubmitted = (updatedIssue: Issue) => {
+    setIssues(prev =>
+      prev.map(issue => issue.id === updatedIssue.id ? updatedIssue : issue)
+    );
+  };
+
   const getStatusCounts = () => {
     return {
       all: issues.length,
@@ -67,6 +75,7 @@ export const MyReports: React.FC = () => {
       verified: issues.filter(i => i.status === 'verified').length,
       acknowledged: issues.filter(i => i.status === 'acknowledged').length,
       'in-progress': issues.filter(i => i.status === 'in-progress').length,
+      'pending-confirmation': issues.filter(i => i.status === 'pending-confirmation').length,
       resolved: issues.filter(i => i.status === 'resolved').length,
     };
   };
@@ -129,6 +138,7 @@ export const MyReports: React.FC = () => {
                     { key: 'verified', label: 'Verified', count: statusCounts.verified },
                     { key: 'acknowledged', label: 'Acknowledged', count: statusCounts.acknowledged },
                     { key: 'in-progress', label: 'In Progress', count: statusCounts['in-progress'] },
+                    { key: 'pending-confirmation', label: 'Pending Confirmation', count: statusCounts['pending-confirmation'] },
                     { key: 'resolved', label: 'Resolved', count: statusCounts.resolved },
                   ].map(({ key, label, count }) => (
                     <button
@@ -167,6 +177,23 @@ export const MyReports: React.FC = () => {
               <div className="space-y-6">
                 {filteredIssues.map(issue => (
                   <div key={issue.id} className="relative">
+                    {/* Citizen Feedback Form for Pending Confirmation */}
+                    {issue.status === 'pending-confirmation' && (
+                      <div className="mb-4">
+                        <CitizenFeedbackForm
+                          issue={issue}
+                          onFeedbackSubmitted={handleFeedbackSubmitted}
+                        />
+                      </div>
+                    )}
+
+                    {/* Resolution Summary for Resolved Issues */}
+                    {issue.status === 'resolved' && issue.isTrulyResolved && (
+                      <div className="mb-4">
+                        <ResolutionSummary issue={issue} />
+                      </div>
+                    )}
+
                     <IssueCard
                       issue={issue}
                       onUpvote={handleIssueUpvote}
@@ -184,6 +211,7 @@ export const MyReports: React.FC = () => {
                               issue.status === 'verified' ? 'w-2/5' :
                               issue.status === 'acknowledged' ? 'w-3/5' :
                               issue.status === 'in-progress' ? 'w-4/5' :
+                              issue.status === 'pending-confirmation' ? 'w-5/6' :
                               issue.status === 'resolved' ? 'w-full' : 'w-0'
                             }`} 
                           />
@@ -193,6 +221,7 @@ export const MyReports: React.FC = () => {
                            issue.status === 'verified' ? '40%' :
                            issue.status === 'acknowledged' ? '60%' :
                            issue.status === 'in-progress' ? '80%' :
+                           issue.status === 'pending-confirmation' ? '83%' :
                            issue.status === 'resolved' ? '100%' : '0%'}
                         </span>
                       </div>
@@ -202,6 +231,7 @@ export const MyReports: React.FC = () => {
                         <span>Verified</span>
                         <span>Acknowledged</span>
                         <span>In Progress</span>
+                        <span>Pending Confirmation</span>
                         <span>Resolved</span>
                       </div>
                     </div>
