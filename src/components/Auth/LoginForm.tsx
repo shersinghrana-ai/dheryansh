@@ -57,21 +57,11 @@ export const LoginForm: React.FC<LoginFormProps> = ({ onSuccess, onCancel }) => 
     <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 flex items-center justify-center p-4">
       <Card className="w-full max-w-md p-8">
         <div className="text-center mb-8">
-          <div className="w-20 h-20 bg-gradient-to-br from-orange-500 via-white to-green-600 rounded-full flex items-center justify-center mx-auto mb-4 border-4 border-orange-400 shadow-xl">
-            <div className="relative">
-              <span className="text-4xl">🏛️</span>
-              <div className="absolute -top-2 -right-2 w-6 h-6 bg-blue-600 rounded-full flex items-center justify-center">
-                <Shield className="w-3 h-3 text-white" />
-              </div>
-            </div>
+          <div className="w-16 h-16 bg-gradient-to-br from-orange-500 to-pink-600 rounded-full flex items-center justify-center mx-auto mb-4">
+            <Shield className="w-8 h-8 text-white" />
           </div>
-          <h1 className="text-2xl font-bold text-white mb-2 flex items-center justify-center">
-            Admin Login
-            <span className="ml-2 text-orange-400">🇮🇳</span>
-          </h1>
-          <p className="text-slate-400">
-            <span className="text-orange-400 font-medium">जन आवाज़</span> • Sign in to access the municipal dashboard
-          </p>
+          <h1 className="text-2xl font-bold text-white mb-2">Admin Login</h1>
+          <p className="text-slate-400">Sign in to access the municipal dashboard</p>
         </div>
 
         {error && (
