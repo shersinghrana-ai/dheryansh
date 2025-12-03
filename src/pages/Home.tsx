@@ -95,12 +95,14 @@ export const Home: React.FC = () => {
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
           <div className="text-center">
             <h1 className="text-4xl sm:text-6xl font-bold text-white mb-4">
-              <span className="bg-gradient-to-r from-orange-400 to-pink-600 bg-clip-text text-transparent">
+              <span className="bg-gradient-to-r from-orange-400 via-white to-green-400 bg-clip-text text-transparent flex items-center justify-center">
+                <span className="mr-4 text-6xl">🏛️</span>
                 Jan Awaaz
+                <span className="ml-4 text-4xl">🇮🇳</span>
               </span>
             </h1>
             <p className="text-xl text-slate-300 mb-8 max-w-2xl mx-auto">
-              जन आवाज़ - Your voice matters. Report civic issues and help build a better community together.
+              <span className="text-orange-400 font-semibold">जन आवाज़</span> - Your voice matters. Report civic issues and help build a better community together.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
               <Button
